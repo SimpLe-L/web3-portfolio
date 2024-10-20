@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import "./globals.css";
+import "../styles/globals.css";
+import { cn } from "@/lib/utils";
+import HeaderNav from "@/components/HeaderNav/HeaderNav";
+import WagmiConfigProvider from "@/contexts/WagmiProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,9 +29,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={cn(`${geistSans.variable} ${geistMono.variable} antialiased`, 'flex flex-col h-screen')}
       >
-        {children}
+        <HeaderNav />
+        <main className="flex-[1]">
+          <WagmiConfigProvider>
+            {children}
+          </WagmiConfigProvider>
+        </main>
       </body>
     </html>
   );
