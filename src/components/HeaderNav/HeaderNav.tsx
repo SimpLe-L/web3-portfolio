@@ -1,8 +1,12 @@
+"use client"
+
+import Image from "next/image";
+import { motion } from "framer-motion";
 import Link from "next/link"
 
 const navList = [
   {
-    name: "首页",
+    name: "Home",
     path: "/",
     id: 1
   },
@@ -20,19 +24,53 @@ const navList = [
 
 const HeaderNav = () => {
   return (
-    <header className="w-full flex justify-between items-center py-4 px-28">
-      <div>logo</div>
-      <div className="flex gap-4">
-        {
-          navList.map(item => {
-            return <div className="p-[4px]" key={item.id}>
-              <Link className="text-[--basic-header]" href={item.path}>{item.name}</Link>
-            </div>
-          })
-        }
+    <motion.header
+      initial={{ y: -100 }}
+      animate={{ y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="w-full flex justify-center items-center border-b border-[--split-line]"
+    >
+      <div className="container flex justify-between items-center py-4">
+        <div className="gradient-text font-bold text-lg cursor-pointer">
+          <Link href="/">Simple</Link>
+        </div>
+        <div className="flex gap-4">
+          {
+            navList.map(item => {
+              return <div className="p-[4px]" key={item.id}>
+                <Link className="text-[--basic-text]" href={item.path}>{item.name}</Link>
+              </div>
+            })
+          }
+        </div>
+
+        <div className="flex gap-3">
+          <Image
+            width={24}
+            height={24}
+            src="/telegram.svg"
+            alt="github"
+            className="object-contain cursor-pointer"
+          />
+          <Image
+            width={24}
+            height={24}
+            src="/x.svg"
+            alt="github"
+            className="object-contain cursor-pointer"
+          />
+          <Image
+            width={24}
+            height={24}
+            src="/github.svg"
+            alt="github"
+            className="object-contain cursor-pointer"
+          />
+        </div>
       </div>
 
-    </header>
+
+    </motion.header>
   )
 }
 

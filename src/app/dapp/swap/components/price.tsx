@@ -141,8 +141,6 @@ export default function PriceView({
     token: sellTokenObject.address,
   });
 
-  console.log("taker sellToken balance: ", data);
-
   const inSufficientBalance =
     data && sellAmount
       ? parseUnits(sellAmount, sellTokenDecimals) > data.value
@@ -485,7 +483,6 @@ export default function PriceView({
                 args: [spender, MAX_ALLOWANCE],
               });
               console.log("approving spender to spend sell token");
-
               refetch();
             }}
           >

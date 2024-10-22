@@ -30,7 +30,6 @@ export default function QuoteView({
   setQuote: (price: any) => void;
   chainId: number;
 }) {
-  console.log("price", price);
 
   const sellTokenInfo = (chainId: number) => {
     if (chainId === 1) {
@@ -184,16 +183,11 @@ export default function QuoteView({
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-full"
         disabled={isPending}
         onClick={async () => {
-          console.log("submitting quote to blockchain");
-          console.log("to", quote.transaction.to);
-          console.log("value", quote.transaction.value);
-
           // On click, (1) Sign the Permit2 EIP-712 message returned from quote
           if (quote.permit2?.eip712) {
             let signature: Hex | undefined;
             try {
               signature = await signTypedDataAsync(quote.permit2.eip712);
-              console.log("Signed permit2 message from quote response");
             } catch (error) {
               console.error("Error signing permit2 coupon:", error);
             }

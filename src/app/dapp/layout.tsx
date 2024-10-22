@@ -3,7 +3,7 @@ import AsideComponent from "@/components/DappAside/DappAside";
 
 const menuList = [
   {
-    menuName: "web3相关",
+    menuName: "web3展板",
     list: [
       {
         title: "众筹",
@@ -28,11 +28,11 @@ const menuList = [
 const DappLayout = ({ children }: { children: React.ReactNode }) => {
 
   return (
-    <div className="flex h-full">
+    <div className="flex h-[calc(100vh-64px)]">
       <div className="flex-[1]">
         <AsideComponent menuList={menuList} />
       </div>
-      <div className="flex-[4]">
+      <div className="flex-[4] p-4">
         {children}
       </div>
     </div>
