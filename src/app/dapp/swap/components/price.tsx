@@ -19,6 +19,7 @@ import {
 import Image from "next/image";
 import qs from "qs";
 
+
 export const DEFAULT_BUY_TOKEN = (chainId: number) => {
   if (chainId === 1) {
     return "weth";
@@ -40,8 +41,8 @@ export default function PriceView({
 }) {
   const [sellToken, setSellToken] = useState("weth");
   const [buyToken, setBuyToken] = useState("usdc");
-  const [sellAmount, setSellAmount] = useState("");
-  const [buyAmount, setBuyAmount] = useState("");
+  const [sellAmount, setSellAmount] = useState("0");
+  const [buyAmount, setBuyAmount] = useState("0");
   const [tradeDirection, setTradeDirection] = useState("sell");
   const [error, setError] = useState([]);
   const [buyTokenTax, setBuyTokenTax] = useState({
@@ -162,11 +163,11 @@ export default function PriceView({
 
       <div className="container mx-auto p-10">
         <header className="text-center py-4">
-          <h1 className="text-3xl font-bold">Swap Demo</h1>
+          <h1 className="text-3xl font-bold text-[--basic-text]">Swap Demo</h1>
         </header>
 
-        <div className="bg-slate-200 dark:bg-slate-800 p-4 rounded-md mb-3">
-          <label htmlFor="sell" className="text-gray-300 mb-2 mr-2">
+        <div className="bg-[--card-bg] p-4 rounded-[20px] mb-3">
+          <label htmlFor="sell" className="text-[--secondry-text] mb-2 mr-2">
             Sell
           </label>
           <section className="mt-4 flex items-start justify-center">
@@ -184,10 +185,9 @@ export default function PriceView({
                 value={sellToken}
                 name="sell-token-select"
                 id="sell-token-select"
-                className="mr-2 w-50 sm:w-full h-9 rounded-md"
+                className="mr-2 sm:w-full h-9 rounded-[16px] bg-[--card-bg] border border-[#adadad] text-[--basic-text]"
                 onChange={handleSellTokenChange}
               >
-                {/* <option value="">--Choose a token--</option> */}
                 {MAINNET_TOKENS.map((token) => {
                   return (
                     <option
@@ -204,16 +204,14 @@ export default function PriceView({
             <input
               id="sell-amount"
               value={sellAmount}
-              className="h-9 rounded-md"
-              style={{ border: "1px solid black" }}
-              type="number"
+              className="h-9 bg-transparent text-[--basic-text] border-none focus:border-none"
               onChange={(e) => {
                 setTradeDirection("sell");
                 setSellAmount(e.target.value);
               }}
             />
           </section>
-          <label htmlFor="buy" className="text-gray-300 mb-2 mr-2">
+          <label htmlFor="buy" className="text-[--secondry-text] mb-2 mr-2">
             Buy
           </label>
           <section className="flex mb-6 mt-4 items-start justify-center">
@@ -229,7 +227,7 @@ export default function PriceView({
               name="buy-token-select"
               id="buy-token-select"
               value={buyToken}
-              className="mr-2 w-50 sm:w-full h-9 rounded-md"
+              className="mr-2 sm:w-full h-9 rounded-[16px] bg-[--card-bg] border border-[#adadad] text-[--basic-text]"
               onChange={(e) => handleBuyTokenChange(e)}
             >
               {/* <option value="">--Choose a token--</option> */}
@@ -248,9 +246,9 @@ export default function PriceView({
             <input
               id="buy-amount"
               value={buyAmount}
-              className="h-9 rounded-md bg-white cursor-not-allowed"
+              className="h-9 bg-transparent cursor-not-allowed rounded-[16px] text-[--basic-text] border-none"
               type="number"
-              style={{ border: "1px solid black" }}
+              style={{ border: "1px solid none" }}
               disabled
               onChange={(e) => {
                 setTradeDirection("buy");
@@ -260,7 +258,7 @@ export default function PriceView({
           </section>
 
           {/* Affiliate Fee Display */}
-          <div className="text-slate-400">
+          <div className="text-[--secondry-text]">
             {price && price.fees.integratorFee.amount
               ? "Affiliate Fee: " +
               Number(
@@ -275,7 +273,7 @@ export default function PriceView({
           </div>
 
           {/* Tax Information Display */}
-          <div className="text-slate-400">
+          <div className="text-[--secondry-text]">
             {buyTokenTax.buyTaxBps !== "0" && (
               <p>
                 {MAINNET_TOKENS_BY_SYMBOL[buyToken].symbol +
@@ -416,12 +414,12 @@ export default function PriceView({
           type="button"
           disabled={disabled}
           onClick={() => {
-            // fetch data, when finished, show quote view
+
             onClick();
           }}
-          className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-700 disabled:opacity-25"
+          className="w-full bg-[--button-bg] text-[--basic-text] p-2 rounded disabled:opacity-25"
         >
-          {disabled ? "Insufficient Balance" : "Review Trade"}
+          {disabled ? "余额不足" : "Review"}
         </button>
       );
     }
@@ -500,9 +498,9 @@ export default function PriceView({
           // fetch data, when finished, show quote view
           onClick();
         }}
-        className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-700 disabled:opacity-25"
+        className="w-full bg-[--button-bg] text-[--basic-text] p-2 rounded disabled:opacity-25"
       >
-        {disabled ? "Insufficient Balance" : "Review Trade"}
+        {disabled ? "余额不足" : "Review"}
       </button>
     );
   }

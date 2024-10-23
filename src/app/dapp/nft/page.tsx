@@ -34,39 +34,8 @@ const NftPage = () => {
     functionName: 'getHorses',
     args: [address!]
   })
-  // if (data) {
-  //   setHorses(data);
-  //   console.log(data);
-  // }
-  // setHorses(data);
-  // const getAllHorses = useReadContract({
-  //   // 合约地址
-  //   address: contractAddress,
-  //   abi: NftAbi,
-  //   functionName: 'getHorses',
-  //   args: [address!]
-  // })
-  // useEffect(() => {
-  //   if (getAllHorses.data) {
-  //     console.log("ww", getAllHorses.data);
-  //     // setHorses(getAllHorses.data);
-  //   }
-  // }, [getAllHorses.data]);
-
-  // useEffect(() => {
-  //   if (status == "success") {
-  //     getAllHorses.refetch();
-  //   }
-  // }, [status]);
   // mint nft
   const MintNFT = async () => {
-    // writeContract({
-    //   abi: NftAbi,
-    //   address: contractAddress,
-    //   functionName: 'safeMint',
-    //   args: [address!],
-    //   gas: 1000000n
-    // })
     // setIsLoading(true);
     await writeContractAsync({
       abi: NftAbi,
@@ -75,20 +44,14 @@ const NftPage = () => {
       args: [address!]
     }, {
       onSuccess: (data) => {
-        console.log("mint", data);
-        // refetch();
+        refetch();
         // setIsLoading(false);
       }
     })
   }
   // 合成NFT
   const CombineNFTs = async () => {
-    // writeContract({
-    //   abi: NftAbi,
-    //   address: contractAddress,
-    //   functionName: 'combine',
-    //   args: toTuple(checkedNfts)
-    // })
+
     await writeContractAsync({
       abi: NftAbi,
       address: contractAddress,
@@ -96,7 +59,7 @@ const NftPage = () => {
       args: toTuple(checkedNfts),
     }, {
       onSuccess: () => {
-        // refetch();
+        refetch();
         // setIsLoading(false);
       }
     })
@@ -125,8 +88,8 @@ const NftPage = () => {
         <ConnectButton />
       </div>
       <div className="w-full flex justify-center gap-2">
-        <Button variant="outline" onClick={MintNFT}>MINT</Button>
-        <Button variant="outline" onClick={CombineNFTs}>合成</Button>
+        <Button className='bg-[--button-bg] text-[--basic-text] hover:bg-[--button-bg]' onClick={MintNFT}>MINT</Button>
+        <Button className='bg-[--button-bg] text-[--basic-text] hover:bg-[--button-bg]' onClick={CombineNFTs}>合成</Button>
       </div>
       <div className='overflow-y-auto flex flex-wrap gap-5 h-full'>
         {horses && horses.map(item => {

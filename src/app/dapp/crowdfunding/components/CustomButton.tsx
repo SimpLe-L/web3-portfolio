@@ -6,6 +6,7 @@ interface ICustomButton {
 }
 
 const CustomButton = ({ btnType, title, handleClick, styles }: ICustomButton) => {
+
   return (
     <button
       type={btnType}

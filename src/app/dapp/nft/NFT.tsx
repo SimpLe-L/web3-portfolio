@@ -1,5 +1,5 @@
 // import Image from "next/image";
-import { combine } from "@/utils";
+import { cn } from "@/lib/utils";
 import {
   Card,
   CardContent,
@@ -20,7 +20,7 @@ export function NFTCard({ data, handleNftCheck }: ICardProp) {
     handleNftCheck(data.tokenId, value);
   }
   return (
-    <Card className={combine("w-[260px] text-white h-[450px]")}>
+    <Card className={cn("w-[260px] text-white h-[450px] bg-[--card-bg] border-[--card-bg]")}>
       <CardHeader className="flex flex-row justify-between">
         <CardTitle> #{String(data.tokenId)}</CardTitle>
         <div className="flex items-center space-x-2">

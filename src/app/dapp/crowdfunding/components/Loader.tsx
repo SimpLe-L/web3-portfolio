@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 const Loader = () => {
   return (
-    <div className="fixed inset-0 z-10 h-screen bg-[rgba(0,0,0,0.7)] flex items-center justify-center flex-col">
+    <div className="w-full h-full absolute inset-0 z-10 flex items-center justify-center flex-col">
       {/* <img src={loader} alt="loader" className="w-[100px] h-[100px] object-contain" /> */}
       <Image
         src="/loader.svg"
@@ -12,7 +12,7 @@ const Loader = () => {
         className="object-contain"
         alt="loader"
       />
-      <p className="mt-[20px] font-epilogue font-bold text-[20px] text-white text-center">Transaction is in progress <br /> Please wait...</p>
+      <p className="mt-[20px] font-epilogue font-bold text-[20px] text-white text-center">交易进行中 <br /> 请稍等...</p>
     </div>
   )
 }

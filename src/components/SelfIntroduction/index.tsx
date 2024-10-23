@@ -30,7 +30,7 @@ const SelfIntroduction = () => {
                 variants={SlideUp(0.8)}
                 initial="initial"
                 animate="animate"
-                className="primary-btn uppercase bg-[#16161a] text-white shadow-[5px_5px_0px_0px_#6c6c6c] px-3 py-1"
+                className="primary-btn uppercase bg-[--card-bg] text-white shadow-[5px_5px_0px_0px_#6c6c6c] px-3 py-1"
               >
                 Github
               </motion.button>
@@ -38,7 +38,7 @@ const SelfIntroduction = () => {
                 variants={SlideUp(1.1)}
                 initial="initial"
                 animate="animate"
-                className="primary-btn uppercase bg-[--basic-text] text-[#16161a] shadow-[5px_7px_0px_0px_#16161a] px-3 py-1 hover:bg-[#16161a] hover:text-white hover:shadow-[5px_5px_0px_0px_#6c6c6c]"
+                className="primary-btn uppercase bg-[--basic-text] text-[#16161a] shadow-[5px_7px_0px_0px_#242629] px-3 py-1 hover:bg-[--card-bg] hover:text-white hover:shadow-[5px_5px_0px_0px_#6c6c6c]"
               >
                 Contact
               </motion.button>
@@ -50,9 +50,9 @@ const SelfIntroduction = () => {
               initial={{ x: 100, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.5, delay: 0.5 }}
-              src="/home.png"
+              src="/home.svg"
               alt=""
-              className="w-[80%] md:w-[700px] object-cover"
+              className="w-[80%] md:w-[600px] object-cover"
             />
           </div>
         </div>

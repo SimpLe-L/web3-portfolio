@@ -1,4 +1,4 @@
-import CrowdFounding from "./crowdfunding/(list)/list/page";
+import CrowdFounding from "./crowdfunding/(list)/page";
 
 const DappPage = () => {
   return (
