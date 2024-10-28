@@ -13,9 +13,9 @@ const SelfIntroduction = () => {
               variants={SlideUp(0.2)}
               initial="initial"
               animate="animate"
-              className="text-4xl font-bold font-serif"
+              className="text-4xl font-bold intro"
             >
-              你好,我是Simple
+              你好，我是Simple
             </motion.h1>
             <motion.p
               variants={SlideUp(0.5)}

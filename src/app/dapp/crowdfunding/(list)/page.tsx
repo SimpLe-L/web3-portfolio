@@ -65,10 +65,7 @@ const CrowdFounding = () => {
             </DialogHeader>
             <CreateCard clsoseDialog={setShowDialog} refetch={refetch} />
           </DialogContent>
-
         </Dialog>
-
-
       </div>
       <DisplayCampaigns
         title="所有项目"

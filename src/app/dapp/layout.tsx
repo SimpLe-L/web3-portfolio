@@ -13,10 +13,10 @@ const menuList = [
       },
       {
         title: "swap demo",
-        path: "/dapp/swap",
+        path: "/dapp/uniswap",
       },
       {
-        title: "NFT",
+        title: "NFT MINT",
         path: "/dapp/nft",
       },
       {

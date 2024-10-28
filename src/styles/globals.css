@@ -74,6 +74,17 @@
   -webkit-text-fill-color: transparent;
 }
 
+.intro::after {
+  content: "你好、我是Simple";
+  position: absolute;
+  left: 0;
+  color: #94a1b2;
+  transform: translate(-18px, 10px) scaleY(0.6) skew(48deg);
+  z-index: -1;
+  filter: blur(1px);
+  mask: linear-gradient(transparent, #94a1b2);
+}
+
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
