@@ -57,7 +57,7 @@ const CrowdFounding = () => {
 
         <Dialog open={showDialog} onOpenChange={handleChange}>
           <DialogTrigger asChild>
-            <div className='w-[92px] h-[40] rounded-[14px] bg-[--button-bg] text-[--basic-text] flex justify-center items-center font-bold cursor-pointer'>创建项目</div>
+            <div className='w-[92px] h-[40px] rounded-[14px] bg-[--button-bg] text-[--basic-text] flex justify-center items-center font-bold cursor-pointer'>创建项目</div>
           </DialogTrigger>
           <DialogContent className='border-[--card-bg]'>
             <DialogHeader>

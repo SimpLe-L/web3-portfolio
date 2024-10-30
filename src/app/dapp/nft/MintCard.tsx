@@ -8,17 +8,31 @@ import {
 } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { INftProperties } from '@/types';
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { ChangeEvent, useState } from "react";
+import { Input } from "@/components/ui/input";
+import { parseUnits } from 'viem'
+
 interface ICardProp {
   data: INftProperties,
   handleNftCheck: (tokenId: bigint, value: boolean) => void
+  handleList: (id: bigint, price: bigint) => void
 }
 
 const resetAddress = (owner: string) => `${owner.slice(0, 4)}...${owner.slice(38)}`;
 
-export function NFTCard({ data, handleNftCheck }: ICardProp) {
+export function NFTCard({ data, handleNftCheck, handleList }: ICardProp) {
+
+  const [price, setPrice] = useState<string>('');
   const valueChange = (value: boolean) => {
     handleNftCheck(data.tokenId, value);
   }
+
+  const listNFT = () => {
+    handleList(data.tokenId, parseUnits(price, 18));
+  }
+
   return (
     <Card className={cn("w-[260px] text-white h-[450px] bg-[--card-bg] border-[--card-bg]")}>
       <CardHeader className="flex flex-row justify-between">
@@ -86,6 +100,30 @@ export function NFTCard({ data, handleNftCheck }: ICardProp) {
             </div>
           </div>
         </div>
+        <Dialog>
+          <DialogTrigger asChild>
+            <div className='w-[92px] h-[30px] rounded-[14px] bg-[--button-bg] text-[--basic-text] flex justify-center items-center font-bold cursor-pointer'>LIST</div>
+          </DialogTrigger>
+          <DialogContent className='border-[--card-bg]'>
+            <DialogHeader>
+              <DialogTitle className='text-[--basic-text]'>上架NFT</DialogTitle>
+            </DialogHeader>
+            <Input
+              value={price}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setPrice(e.target.value)}
+              placeholder="0.01ETH" />
+            <DialogFooter className="justify-end">
+              <DialogClose asChild>
+                <Button type="button" variant="secondary">
+                  取消
+                </Button>
+              </DialogClose>
+              <Button onClick={listNFT}>
+                上架
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
       </CardContent>
     </Card>
   )

@@ -1,100 +1,32 @@
 "use client"
 
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount, useWriteContract, useReadContract } from 'wagmi';
-import { NftAbi } from "~/nft";
-import { contractAddress } from '@/configs';
 import { useEffect, useState } from 'react';
+import { useAccount } from 'wagmi';
 
-import { NFTCard } from './NFT';
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/hooks/use-toast";
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { Button } from '@/components/ui/button';
 
-import { INftProperties } from '@/types';
-
-const toTuple = (arr: bigint[]): readonly [bigint, bigint] => {
-  if (arr.length !== 2) {
-    throw new Error("Array must have exactly 2 elements.");
-  }
-  return [arr[0], arr[1]] as readonly [bigint, bigint];
-}
+import MintComp from './Mint'
+import MarketComp from './Market'
 
 const NftPage = () => {
-  const { toast } = useToast()
   const { address } = useAccount();
-  const { writeContractAsync, writeContract } = useWriteContract()
-  // const [horses, setHorses] = useState<readonly INftProperties[] | undefined>([]);
-  const [checkedNfts, setCheckedNft] = useState<bigint[]>([]);
+  const [isMine, setIsMain] = useState(true);
 
-  // 读取已拥有的nft列表
-  const { data: horses, refetch } = useReadContract({
-    // 合约地址
-    address: contractAddress,
-    abi: NftAbi,
-    functionName: 'getHorses',
-    args: [address!]
-  })
-  // mint nft
-  const MintNFT = async () => {
-    // setIsLoading(true);
-    await writeContractAsync({
-      abi: NftAbi,
-      address: contractAddress,
-      functionName: 'safeMint',
-      args: [address!]
-    }, {
-      onSuccess: (data) => {
-        refetch();
-        // setIsLoading(false);
-      }
-    })
-  }
-  // 合成NFT
-  const CombineNFTs = async () => {
-
-    await writeContractAsync({
-      abi: NftAbi,
-      address: contractAddress,
-      functionName: 'combine',
-      args: toTuple(checkedNfts),
-    }, {
-      onSuccess: () => {
-        refetch();
-        // setIsLoading(false);
-      }
-    })
-  }
-
-  // 处理勾选的nft
-  const handleNftCheck = (tokenId: bigint, value: boolean) => {
-
-    if (value) {
-      if (checkedNfts.length >= 2) {
-        toast({
-          description: "合成条件：两张同等级且不超过3级的NFT",
-        })
-        return;
-      }
-      setCheckedNft([...checkedNfts, tokenId]);
-    } else {
-      // 取消勾选
-      setCheckedNft(checkedNfts.filter(item => item !== tokenId));
-    }
+  const changePlace = () => {
+    setIsMain(!isMine);
   }
 
   return (
-    <div className="p-5 h-full flex flex-col gap-4">
-      <div className='w-full flex justify-center'>
+    <div className='flex flex-col p-5 gap-4 h-full'>
+      <div className='w-full flex gap-2 justify-center'>
         <ConnectButton />
+        <Button className='bg-[--button-bg] text-[--basic-text] hover:bg-[--button-bg]' onClick={changePlace}>{isMine ? '市场' : '我的'}</Button>
       </div>
-      <div className="w-full flex justify-center gap-2">
-        <Button className='bg-[--button-bg] text-[--basic-text] hover:bg-[--button-bg]' onClick={MintNFT}>MINT</Button>
-        <Button className='bg-[--button-bg] text-[--basic-text] hover:bg-[--button-bg]' onClick={CombineNFTs}>合成</Button>
-      </div>
-      <div className='overflow-y-auto flex flex-wrap gap-5 h-full'>
-        {horses && horses.map(item => {
-          return <NFTCard key={item.tokenId} data={item} handleNftCheck={handleNftCheck} />
-        })}
+      <div className='flex-[1]'>
+        {
+          isMine ? <MintComp address={address} changePlace={changePlace} /> : <MarketComp address={address} />
+        }
       </div>
     </div>
   );

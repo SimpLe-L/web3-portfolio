@@ -23,22 +23,6 @@ export interface INftProperties {
   uri: string;
 }
 
-// export interface IResponse {
-//   IpfsHash: string;
-//   PinSize: number;
-//   Timestamp: string;
-// }
-
-// export type campaignResArr = {
-//   owner: `0x${string}`;
-//   title: string;
-//   description: string;
-//   target: string;
-//   deadline: number;
-//   amountCollected: string;
-//   image: string;
-//   pId: number;
-// }[] | [] | undefined
 
 export type campaignTypeArr = {
   owner: `0x${string}`;
@@ -51,16 +35,6 @@ export type campaignTypeArr = {
   pId: number;
 }[] | undefined | []
 
-// export type campaignRes = {
-//   owner: `0x${string}`;
-//   title: string;
-//   description: string;
-//   target: string;
-//   deadline: number;
-//   amountCollected: string;
-//   image: string;
-//   pId: number;
-// }
 
 export type campaignType = {
   owner: `0x${string}`;
@@ -78,16 +52,6 @@ export type CampaignWithoutId = Omit<campaignType, 'pId'> & {
   // handleNavigate: (campaign: campaignRes) => void;
   handleClick: any;
 };
-
-// export type DonationsArr = {
-//   donator: `0x${string}`;
-//   donation: string;
-// }[] | []
-
-// export type DonationRes = {
-//   donator: `0x${string}`;
-//   donation: string;
-// }
 
 
 // swap types
@@ -185,3 +149,12 @@ export interface V2QuoteTransaction {
   value: string;
 }
 
+
+export interface IMarketItem {
+  seller: `0x${string}`;
+  tokenId: bigint;
+  index: bigint;
+  price: bigint;
+  uri: string;
+  active: boolean;
+}
