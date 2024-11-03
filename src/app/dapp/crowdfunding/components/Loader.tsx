@@ -4,7 +4,6 @@ import Image from 'next/image';
 const Loader = () => {
   return (
     <div className="w-full h-full absolute inset-0 z-10 flex items-center justify-center flex-col">
-      {/* <img src={loader} alt="loader" className="w-[100px] h-[100px] object-contain" /> */}
       <Image
         src="/loader.svg"
         width={100}

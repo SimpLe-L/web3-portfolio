@@ -1,4 +1,4 @@
-"use client"
+// "use client"
 
 import AsideComponent from "@/components/DappAside/DappAside";
 import { useEffect } from "react";
@@ -28,9 +28,9 @@ const menuList = [
 ]
 
 const DappLayout = ({ children }: { children: React.ReactNode }) => {
-  useEffect(() => {
-    document.body.classList.add('dark');
-  }, []);
+  // useEffect(() => {
+  //   document.body.classList.add('dark');
+  // }, []);
   return (
     <div className="flex h-[calc(100vh-64px)]">
       <div className="flex-[1]">

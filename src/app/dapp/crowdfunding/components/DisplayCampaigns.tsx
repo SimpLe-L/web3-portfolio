@@ -15,10 +15,9 @@ const DisplayCampaigns = ({ title, isLoading, campaigns }: { title: string, isLo
     const convertData = {
       ...campaign,
       amountCollected: formatEther(campaign.amountCollected),
-      target: campaign.target.toString(),
+      target: formatEther(campaign.target),
       deadline: campaign.deadline.toString(),
     }
-    // console.log(convertData);
     const queryString = encodeURIComponent(JSON.stringify(convertData));
     router.push(`/dapp/crowdfunding/${campaign.title}?data=${queryString}`);
   }

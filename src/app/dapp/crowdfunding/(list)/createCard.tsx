@@ -1,3 +1,4 @@
+import { useState } from "react";
 import * as z from "zod";
 import { useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -21,11 +22,14 @@ import {
 } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
 import { cn } from "@/lib/utils";
-import { useAccount, useWriteContract } from "wagmi";
-import { useState } from "react";
+import { useAccount, useWriteContract, type BaseError } from "wagmi";
+import { waitForTransactionReceipt } from '@wagmi/core'
 import { crowdFundingAbi } from "~/crowdFunding";
-import { contractAddress } from "@/configs";
+import { crowdfundingAddress } from "@/configs";
 import Loader from "../components/Loader";
+import { parseUnits } from "viem";
+import { wagmiConfig } from "@/utils/wagmiConfig";
+import { useToast } from "@/hooks/use-toast";
 
 
 const formSchema = z.object({
@@ -58,9 +62,32 @@ interface props {
 }
 
 const CreateCard = ({ clsoseDialog, refetch }: props) => {
+
+  const { toast } = useToast();
   const { address } = useAccount();
-  const { writeContractAsync } = useWriteContract()
   const [isLoading, setIsLoading] = useState(false);
+
+  const { writeContract } = useWriteContract({
+    mutation: {
+      onSuccess: async (hash, variables) => {
+        const listReceipt = await waitForTransactionReceipt(wagmiConfig,
+          { hash });
+        if (listReceipt.status === "success") {
+          toast({
+            description: "创建项目成功！",
+          });
+          setIsLoading(false);
+          clsoseDialog(false);
+          refetch();
+        }
+      },
+      onError: (error) => {
+        toast({
+          description: "Error: " + ((error as BaseError).shortMessage || error.message)
+        });
+      }
+    }
+  })
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema)
@@ -69,24 +96,19 @@ const CreateCard = ({ clsoseDialog, refetch }: props) => {
   const onSubmit = async () => {
     const getFormValues = form.getValues();
     setIsLoading(true);
-    await writeContractAsync({
+    writeContract({
       abi: crowdFundingAbi,
-      address: contractAddress,
+      address: crowdfundingAddress,
       functionName: 'createCampaign',
       args: [
         address!, // owner
         getFormValues.title, // title
         getFormValues.description, // description
-        BigInt(getFormValues.target),
+        parseUnits(getFormValues.target, 18),
+        // BigInt(getFormValues.target),
         BigInt(getFormValues.deadline.getTime()), // deadline,
         getFormValues.imageUrl,
       ],
-    }, {
-      onSuccess: () => {
-        setIsLoading(false);
-        clsoseDialog(false);
-        refetch();
-      }
     })
   }
 

@@ -58,9 +58,9 @@ export function NFTCard({ data, handleNftCheck, handleList }: ICardProp) {
           {/* <Image src="https://raw.githubusercontent.com/SimpLe-L/simp1e-blog/main/public/donkeys/0/images/3.png" alt="NFT" width={210} height={210}></Image> */}
         </div>
 
-        <div>
+        <div className="flex flex-col gap-1">
           <div
-            className="mb-2 grid grid-cols-[25px_1fr] items-start pb-2 last:mb-0 last:pb-0"
+            className="grid grid-cols-[25px_1fr] items-start last:mb-0 last:pb-0"
           >
             <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
             <div className="space-y-1">
@@ -70,7 +70,7 @@ export function NFTCard({ data, handleNftCheck, handleList }: ICardProp) {
             </div>
           </div>
           <div
-            className="mb-2 grid grid-cols-[25px_1fr] items-start pb-2 last:mb-0 last:pb-0"
+            className="grid grid-cols-[25px_1fr] items-start last:mb-0 last:pb-0"
           >
             <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
             <div className="space-y-1">
@@ -80,7 +80,7 @@ export function NFTCard({ data, handleNftCheck, handleList }: ICardProp) {
             </div>
           </div>
           <div
-            className="mb-2 grid grid-cols-[25px_1fr] items-start pb-2 last:mb-0 last:pb-0"
+            className="grid grid-cols-[25px_1fr] items-start last:mb-0 last:pb-0"
           >
             <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
             <div className="space-y-1">
@@ -90,7 +90,7 @@ export function NFTCard({ data, handleNftCheck, handleList }: ICardProp) {
             </div>
           </div>
           <div
-            className="mb-2 grid grid-cols-[25px_1fr] items-start pb-2 last:mb-0 last:pb-0"
+            className="grid grid-cols-[25px_1fr] items-start last:mb-0 last:pb-0"
           >
             <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
             <div className="space-y-1">
@@ -102,7 +102,7 @@ export function NFTCard({ data, handleNftCheck, handleList }: ICardProp) {
         </div>
         <Dialog>
           <DialogTrigger asChild>
-            <div className='w-[92px] h-[30px] rounded-[14px] bg-[--button-bg] text-[--basic-text] flex justify-center items-center font-bold cursor-pointer'>LIST</div>
+            <div className='w-full h-[30px] rounded-[14px] bg-[--button-bg] text-[--basic-text] flex justify-center items-center font-bold cursor-pointer'>LIST</div>
           </DialogTrigger>
           <DialogContent className='border-[--card-bg]'>
             <DialogHeader>

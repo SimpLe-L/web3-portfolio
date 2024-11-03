@@ -24,6 +24,8 @@
     "@types/uuid": "^10.0.0",
     "@uniswap/sdk-core": "4.2.1",
     "@uniswap/v2-sdk": "4.4.1",
+    "@wagmi/connectors": "^5.3.3",
+    "@wagmi/core": "^2.14.1",
     "abitype": "^1.0.6",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
@@ -40,7 +42,7 @@
     "tailwind-merge": "^2.5.4",
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^10.0.0",
-    "viem": "2.x",
+    "viem": "~2.11.1",
     "wagmi": "^2.12.19",
     "zod": "^3.23.8"
   },

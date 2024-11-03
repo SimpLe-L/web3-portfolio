@@ -5,7 +5,7 @@ import DisplayCampaigns from '../components/DisplayCampaigns';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useReadContract } from 'wagmi';
 import { crowdFundingAbi } from "~/crowdFunding";
-import { contractAddress } from '@/configs';
+import { crowdfundingAddress } from '@/configs';
 import { campaignTypeArr } from '@/types';
 
 import {
@@ -32,7 +32,7 @@ const CrowdFounding = () => {
 
   const { data, isLoading, refetch } = useReadContract({
     abi: crowdFundingAbi,
-    address: contractAddress,
+    address: crowdfundingAddress,
     functionName: 'getCampaigns'
   });
 
