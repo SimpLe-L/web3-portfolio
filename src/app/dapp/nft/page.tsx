@@ -23,7 +23,7 @@ const NftPage = () => {
         <ConnectButton />
         <Button className='bg-[--button-bg] text-[--basic-text] hover:bg-[--button-bg]' onClick={changePlace}>{isMine ? '市场' : '我的'}</Button>
       </div>
-      <div className='flex-[1]'>
+      <div className='flex-[1] overflow-y-auto'>
         {
           isMine ? <MintComp address={address} changePlace={changePlace} /> : <MarketComp address={address} />
         }

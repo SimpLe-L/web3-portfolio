@@ -1,6 +1,7 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { cn } from "@/lib/utils"
 import { IMarketItem } from "@/types";
+import { formatEther } from "viem";
 
 interface IProps {
   address: `0x${string}` | undefined;
@@ -11,7 +12,6 @@ interface IProps {
 const resetAddress = (owner: string) => `${owner.slice(0, 4)}...${owner.slice(38)}`;
 
 const MarketCard = ({ address, buyNft, unShelve, nftItem }: IProps) => {
-
   const handleClick = () => {
     if (address == nftItem.seller) {
       unShelve(nftItem.tokenId);
@@ -20,9 +20,9 @@ const MarketCard = ({ address, buyNft, unShelve, nftItem }: IProps) => {
     }
   }
   return (
-    <Card className={cn("w-[260px] text-white h-[450px] bg-[--card-bg] border-[--card-bg]")}>
+    <Card className={cn("w-[260px] text-white h-[420px] bg-[--card-bg] border-[--split-line]")}>
       <CardHeader className="flex flex-row justify-between">
-        {/* <CardTitle> #{String(data.tokenId)}</CardTitle> */}
+        <CardTitle> #{String(nftItem.tokenId)}</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-4">
 
@@ -42,7 +42,7 @@ const MarketCard = ({ address, buyNft, unShelve, nftItem }: IProps) => {
             <span className="flex h-2 w-2 translate-y-1 rounded-full bg-sky-500" />
             <div className="space-y-1">
               <p className="text-sm text-muted-foreground">
-                价格: {nftItem.price}
+                价格: {formatEther(nftItem.price)}ETH
               </p>
             </div>
           </div>

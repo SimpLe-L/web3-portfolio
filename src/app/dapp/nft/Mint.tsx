@@ -1,7 +1,7 @@
 "use client"
 
 import { useWriteContract, useReadContract, useWaitForTransactionReceipt, type BaseError } from 'wagmi';
-import { contractAddress, nftAddress } from '@/configs';
+import { mintAddress, nftAddress } from '@/configs';
 import { useState } from 'react';
 
 import { NFTCard } from './MintCard';
@@ -10,7 +10,10 @@ import { useToast } from "@/hooks/use-toast";
 import { NftAbi } from "~/nft";
 import { nftMarketABI } from "~/nftMarket";
 import { wagmiConfig } from "@/utils/wagmiConfig";
-import { waitForTransactionReceipt } from '@wagmi/core'
+import { readContract, waitForTransactionReceipt } from '@wagmi/core';
+
+import Loader from '../crowdfunding/components/Loader';
+import { parseEther } from 'viem';
 // import { INftProperties } from '@/types';
 
 const toTuple = (arr: bigint[]): readonly [bigint, bigint] => {
@@ -27,11 +30,12 @@ interface IProps {
 
 const MintPage = ({ address, changePlace }: IProps) => {
 
-  const { toast } = useToast()
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
   // const { data: hash, writeContractAsync: approve, isPending } = useWriteContract()
   // const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash });
   const [checkedNfts, setCheckedNft] = useState<bigint[]>([]);
-  const [price, setPrice] = useState<bigint>(0n);
+  const [price, setPrice] = useState('');
   // mint
   const { writeContract: mint, isPending: mintStatus } = useWriteContract({
     mutation: {
@@ -39,6 +43,7 @@ const MintPage = ({ address, changePlace }: IProps) => {
         const listReceipt = await waitForTransactionReceipt(wagmiConfig,
           { hash });
         if (listReceipt.status === "success") {
+          setIsLoading(false);
           toast({
             description: "mint成功！",
           });
@@ -59,6 +64,7 @@ const MintPage = ({ address, changePlace }: IProps) => {
         const listReceipt = await waitForTransactionReceipt(wagmiConfig,
           { hash });
         if (listReceipt.status === "success") {
+          setIsLoading(false);
           toast({
             description: "合成成功！",
           });
@@ -79,9 +85,9 @@ const MintPage = ({ address, changePlace }: IProps) => {
         const listReceipt = await waitForTransactionReceipt(wagmiConfig,
           { hash });
         if (listReceipt.status === "success") {
-          const nftAddress = variables.address;
+          // const nftAddress = variables.address;
           const tokenId = variables.args![1] as bigint;
-          handleApproveSuccess(nftAddress, tokenId, price);
+          handleApproveSuccess(tokenId);
         }
       },
       onError: (error) => {
@@ -98,10 +104,11 @@ const MintPage = ({ address, changePlace }: IProps) => {
         const listReceipt = await waitForTransactionReceipt(wagmiConfig,
           { hash });
         if (listReceipt.status === "success") {
+          setIsLoading(false);
           toast({
             description: "上架成功！",
           });
-          refetch();
+          changePlace();
         }
       },
       onError: (error) => {
@@ -114,41 +121,32 @@ const MintPage = ({ address, changePlace }: IProps) => {
 
 
   // 读取已拥有的nft列表
-  const { data: horses, refetch } = useReadContract({
+  const { data: horses, isSuccess, refetch } = useReadContract({
     // 合约地址
-    address: contractAddress,
+    address: mintAddress,
     abi: NftAbi,
     functionName: 'getHorses',
     args: [address!]
   })
   // mint nft
   const MintNFT = async () => {
+    setIsLoading(true);
     mint({
       abi: NftAbi,
-      address: contractAddress,
+      address: mintAddress,
       functionName: 'safeMint',
       args: [address!]
     })
   }
   // 合成NFT
   const CombineNFTs = async () => {
-
+    setIsLoading(true);
     combine({
       abi: NftAbi,
-      address: contractAddress,
+      address: mintAddress,
       functionName: 'combine',
       args: toTuple(checkedNfts),
     });
-    // await writeContractAsync({
-    //   abi: NftAbi,
-    //   address: contractAddress,
-    //   functionName: 'combine',
-    //   args: toTuple(checkedNfts),
-    // }, {
-    //   onSuccess: () => {
-    //     refetch();
-    //   }
-    // })
   }
 
   // 处理勾选的nft
@@ -168,7 +166,7 @@ const MintPage = ({ address, changePlace }: IProps) => {
     }
   }
   // 授权及上架
-  const handleList = async (id: bigint, price: bigint) => {
+  const handleList = async (id: bigint, price: string) => {
     if (!price) {
       toast({
         description: "价格不能为空",
@@ -176,35 +174,50 @@ const MintPage = ({ address, changePlace }: IProps) => {
       return;
     }
     setPrice(price);
+    setIsLoading(true);
+    // 是否已经授权
+    const addr = await readContract(wagmiConfig, {
+      address: mintAddress,
+      abi: NftAbi,
+      functionName: 'getApproved',
+      args: [id]
+    })
+    if (addr == nftAddress) {
+      await handleApproveSuccess(id);
+      return;
+    }
     approveMethod({
       abi: NftAbi,
-      address: contractAddress,
+      address: mintAddress,
       functionName: 'approve',
       args: [nftAddress, id]
     })
 
   }
 
-  const handleApproveSuccess = (nftAddress: `0x${string}`, tokenId: bigint, price: bigint) => {
+  const handleApproveSuccess = async (tokenId: bigint) => {
     listMethod({
       abi: nftMarketABI,
       address: nftAddress,
       functionName: 'shelve',
-      args: [tokenId, price]
-    })
+      args: [tokenId, parseEther(price)]
+    });
   }
 
   return (
     <div className="h-full flex flex-col gap-3">
+      {
+        isLoading && <Loader />
+      }
       <div className="w-full flex justify-center gap-2">
         <Button className='bg-[--button-bg] text-[--basic-text] hover:bg-[--button-bg]' onClick={MintNFT}>
           {
-            mintStatus ? "进行中" : "MINT"
+            mintStatus ? "进行中..." : "MINT"
           }
         </Button>
         <Button className='bg-[--button-bg] text-[--basic-text] hover:bg-[--button-bg]' onClick={CombineNFTs}>
 
-          {combineStatus ? "进行中" : "合成"}
+          {combineStatus ? "进行中..." : "合成"}
         </Button>
       </div>
       <div className='overflow-y-auto flex flex-wrap gap-5 flex-[1]'>

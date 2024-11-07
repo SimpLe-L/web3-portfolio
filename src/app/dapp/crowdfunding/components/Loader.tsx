@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 const Loader = () => {
   return (
-    <div className="w-full h-full absolute inset-0 z-10 flex items-center justify-center flex-col">
+    <div className="w-full h-full absolute bg-[rgba(0,0,0,0.7) inset-0 z-10 flex items-center justify-center flex-col">
       <Image
         src="/loader.svg"
         width={100}

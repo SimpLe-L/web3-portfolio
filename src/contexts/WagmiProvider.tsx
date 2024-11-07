@@ -21,7 +21,7 @@ const config = createConfig({
   transports: {
     [anvil.id]: http(),
     [mainnet.id]: http(),
-    [sepolia.id]: http()
+    [sepolia.id]: http("https://eth-sepolia.g.alchemy.com/v2/-SRymV4bA08HcL1DulqFxNPTgMftEopr")
   },
 })
 

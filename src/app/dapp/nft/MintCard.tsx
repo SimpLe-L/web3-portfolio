@@ -17,7 +17,7 @@ import { parseUnits } from 'viem'
 interface ICardProp {
   data: INftProperties,
   handleNftCheck: (tokenId: bigint, value: boolean) => void
-  handleList: (id: bigint, price: bigint) => void
+  handleList: (id: bigint, price: string) => void
 }
 
 const resetAddress = (owner: string) => `${owner.slice(0, 4)}...${owner.slice(38)}`;
@@ -30,11 +30,11 @@ export function NFTCard({ data, handleNftCheck, handleList }: ICardProp) {
   }
 
   const listNFT = () => {
-    handleList(data.tokenId, parseUnits(price, 18));
+    handleList(data.tokenId, price);
   }
 
   return (
-    <Card className={cn("w-[260px] text-white h-[450px] bg-[--card-bg] border-[--card-bg]")}>
+    <Card className={cn("w-[260px] text-white h-[450px] bg-[--card-bg] border-[--split-line]")}>
       <CardHeader className="flex flex-row justify-between">
         <CardTitle> #{String(data.tokenId)}</CardTitle>
         <div className="flex items-center space-x-2">
@@ -109,6 +109,7 @@ export function NFTCard({ data, handleNftCheck, handleList }: ICardProp) {
               <DialogTitle className='text-[--basic-text]'>上架NFT</DialogTitle>
             </DialogHeader>
             <Input
+              className="text-[--basic-text]"
               value={price}
               onChange={(e: ChangeEvent<HTMLInputElement>) => setPrice(e.target.value)}
               placeholder="0.01ETH" />
