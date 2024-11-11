@@ -1,7 +1,8 @@
-// "use client"
+"use client"
 
+import { SlideLeft, SlideRight, SlideUp } from "@/utils"
+import { motion } from "framer-motion"
 import AsideComponent from "@/components/DappAside/DappAside";
-import { useEffect } from "react";
 
 const menuList = [
   {
@@ -12,15 +13,15 @@ const menuList = [
         path: "/dapp/crowdfunding",
       },
       {
+        title: "NFT",
+        path: "/dapp/nft",
+      },
+      {
         title: "swap demo",
         path: "/dapp/uniswap",
       },
       {
-        title: "NFT MINT",
-        path: "/dapp/nft",
-      },
-      {
-        title: "质押挖矿",
+        title: "carbon miner",
         path: "/dapp/staking",
       }
     ]
@@ -28,17 +29,23 @@ const menuList = [
 ]
 
 const DappLayout = ({ children }: { children: React.ReactNode }) => {
-  // useEffect(() => {
-  //   document.body.classList.add('dark');
-  // }, []);
+
   return (
-    <div className="flex h-[calc(100vh-64px)]">
-      <div className="flex-[1]">
+    <div className="flex h-[calc(100vh-64px)] overflow-hidden">
+      <motion.div
+        variants={SlideRight(0.2)}
+        initial="initial"
+        animate="animate"
+        className="flex-[1]">
         <AsideComponent menuList={menuList} />
-      </div>
-      <div className="flex-[4] p-4">
+      </motion.div>
+      <motion.div
+        variants={SlideLeft(0.3)}
+        initial="initial"
+        animate="animate"
+        className="flex-[4] p-4">
         {children}
-      </div>
+      </motion.div>
     </div>
   )
 }

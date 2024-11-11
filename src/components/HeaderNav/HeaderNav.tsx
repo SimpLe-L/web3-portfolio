@@ -31,8 +31,8 @@ const HeaderNav = () => {
       className="w-full flex justify-center items-center border-b border-[--split-line]"
     >
       <div className="container flex justify-between items-center py-4">
-        <div className="gradient-text font-bold text-lg cursor-pointer">
-          <Link href="/">Simple</Link>
+        <div className="gradient-text cursor-pointer">
+          <Link href="/" className="font-bold text-2xl">Simple</Link>
         </div>
         <div className="flex gap-4">
           {

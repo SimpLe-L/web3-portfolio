@@ -11,7 +11,8 @@ import '@rainbow-me/rainbowkit/styles.css'
 
 // const projectId = ''
 const config = createConfig({
-  chains: [mainnet, sepolia, anvil],
+  // chains: [mainnet, sepolia, anvil],
+  chains: [sepolia],
   connectors: [
     injected(),
     // walletConnect({ projectId }), "https://eth-sepolia.g.alchemy.com/v2/-SRymV4bA08HcL1DulqFxNPTgMftEopr"
@@ -19,8 +20,8 @@ const config = createConfig({
     // safe(),
   ],
   transports: {
-    [anvil.id]: http(),
-    [mainnet.id]: http(),
+    // [anvil.id]: http(),
+    // [mainnet.id]: http(),
     [sepolia.id]: http("https://eth-sepolia.g.alchemy.com/v2/-SRymV4bA08HcL1DulqFxNPTgMftEopr")
   },
 })
