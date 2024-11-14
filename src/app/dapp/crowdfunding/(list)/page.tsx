@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import DisplayCampaigns from '../components/DisplayCampaigns';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { useReadContract } from 'wagmi';
@@ -10,17 +10,12 @@ import { campaignTypeArr } from '@/types';
 
 import {
   Dialog,
-  DialogClose,
   DialogContent,
-  DialogDescription,
-  DialogFooter,
   DialogHeader,
-  DialogOverlay,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import CreateCard from './createCard';
-// import { Button } from '@/components/ui/button';
 
 const CrowdFounding = () => {
 
@@ -28,7 +23,6 @@ const CrowdFounding = () => {
   const handleChange = (value: boolean) => {
     setShowDialog(value);
   }
-  // const [displayData, setDispalyData] = useState<campaignTypeArr>([]);
 
   const { data, isLoading, refetch } = useReadContract({
     abi: crowdFundingAbi,

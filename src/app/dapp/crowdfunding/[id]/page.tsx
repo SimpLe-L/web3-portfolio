@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useCallback } from 'react'
+import { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation';
 import CountBox from "../components/CountBox"
 import CustomButton from "../components/CustomButton"
@@ -9,7 +9,7 @@ import { calculateBarPercentage, daysLeft } from '@/utils';
 import { useReadContract, useWriteContract, type BaseError } from 'wagmi';
 import { crowdFundingAbi } from '~/crowdFunding';
 import { crowdfundingAddress } from '@/configs';
-import { parseEther, formatEther } from 'viem';
+import { parseEther } from 'viem';
 import { waitForTransactionReceipt } from '@wagmi/core';
 import { wagmiConfig } from '@/utils/wagmiConfig';
 import { useToast } from '@/hooks/use-toast';
@@ -142,7 +142,6 @@ const CampaignDetails = () => {
 
               <div className="my-[20px] p-4 bg-[#13131a] rounded-[10px]">
                 <h4 className="font-epilogue font-semibold text-[14px] leading-[22px] text-white">支持该项目请进行捐款吧！</h4>
-                {/* <p className="mt-[20px] font-epilogue font-normal leading-[22px] text-[#808191]"></p> */}
               </div>
 
               <CustomButton
@@ -151,16 +150,6 @@ const CampaignDetails = () => {
                 styles="w-full bg-[--button-bg]"
                 handleClick={handleDonate}
               />
-              {/* {
-                state.owner == address && <CustomButton
-                  btnType="button"
-                  title="取款"
-                  remain={remainingDays}
-                  styles="w-full bg-[--button-bg] mt-1"
-                  handleClick={withdrawMethod}
-                />
-              } */}
-
             </div>
           </div>
         </div>

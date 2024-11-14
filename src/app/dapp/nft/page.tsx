@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useAccount } from 'wagmi';
 
 import { ConnectButton } from '@rainbow-me/rainbowkit';

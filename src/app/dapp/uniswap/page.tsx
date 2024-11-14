@@ -9,7 +9,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { uniswapV2Pair, uniswapV2Router02, approveABI } from '~/uniswap';
 import { useAccount, useWriteContract, BaseError } from 'wagmi';
 import { parseUnits } from 'ethers';
-import { MAINNET_PROVIDER_URI, uniswapV2Router02Address } from '@/configs';
+import { uniswapV2Router02Address } from '@/configs';
 import { createPublicClient, http } from 'viem';
 import { mainnet } from 'viem/chains';
 import { Input } from '@/components/ui/input';
@@ -105,7 +105,7 @@ const SwapPage = () => {
     const pairAddress = Pair.getAddress(tokenOne, tokenTwo)
     const client = createPublicClient({
       chain: mainnet,
-      transport: http(MAINNET_PROVIDER_URI)
+      transport: http(process.env.NEXT_ALCHEMY_MAINNET)
     })
     const reserves = await client.readContract({
       address: pairAddress as `0x${string}`,

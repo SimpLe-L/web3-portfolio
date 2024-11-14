@@ -57,7 +57,7 @@ const AboutPage = () => {
               Node.js，能使用Koa/express实现简单的 CRUD
             </li>
             <li>
-              对Next.js + Prisma + Prisma + PostgreSQL + Vercel有实践经验
+              对Next.js + Prisma + PostgreSQL + Vercel有实践经验
             </li>
           </ul>
         </motion.div>
