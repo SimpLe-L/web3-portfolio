@@ -32,7 +32,7 @@ const MintPage = ({ address, changePlace }: IProps) => {
 
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  // const { data: hash, writeContractAsync: approve, isPending } = useWriteContract()
+  // const { data: hash, writeContract, isPending } = useWriteContract()
   // const { isLoading: isConfirming, isSuccess: isConfirmed } = useWaitForTransactionReceipt({ hash });
   const [checkedNfts, setCheckedNft] = useState<bigint[]>([]);
   const [price, setPrice] = useState('');

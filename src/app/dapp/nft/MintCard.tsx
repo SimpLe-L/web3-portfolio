@@ -25,11 +25,13 @@ const resetAddress = (owner: string) => `${owner.slice(0, 4)}...${owner.slice(38
 export function NFTCard({ data, handleNftCheck, handleList }: ICardProp) {
 
   const [price, setPrice] = useState<string>('');
+  const [isOpen, setIsOpen] = useState(false);
   const valueChange = (value: boolean) => {
     handleNftCheck(data.tokenId, value);
   }
 
   const listNFT = () => {
+    setIsOpen(false);
     handleList(data.tokenId, price);
   }
 
@@ -100,7 +102,7 @@ export function NFTCard({ data, handleNftCheck, handleList }: ICardProp) {
             </div>
           </div>
         </div>
-        <Dialog>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
           <DialogTrigger asChild>
             <div className='w-full h-[30px] rounded-[14px] bg-[--button-bg] text-[--basic-text] flex justify-center items-center font-bold cursor-pointer'>LIST</div>
           </DialogTrigger>

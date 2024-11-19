@@ -11,7 +11,7 @@ const Loader = () => {
         className="object-contain"
         alt="loader"
       />
-      <p className="mt-[20px] font-epilogue font-bold text-[20px] text-white text-center">交易进行中 <br /> 请稍等...</p>
+      <p className="mt-[10px] font-epilogue font-bold text-[20px] text-white text-center">Loading...</p>
     </div>
   )
 }

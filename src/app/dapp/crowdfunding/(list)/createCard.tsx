@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as z from "zod";
 import { useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -14,7 +13,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { format } from "date-fns"
-import { CalendarIcon } from "lucide-react"
+import { CalendarIcon, Loader2 } from "lucide-react"
 import {
   Popover,
   PopoverContent,
@@ -22,13 +21,13 @@ import {
 } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
 import { cn } from "@/lib/utils";
-import { useAccount, useWriteContract, type BaseError } from "wagmi";
-import { waitForTransactionReceipt } from '@wagmi/core'
+import { useAccount, useWriteContract, type BaseError, useWaitForTransactionReceipt } from "wagmi";
+// import { waitForTransactionReceipt } from '@wagmi/core'
 import { crowdFundingAbi } from "~/crowdFunding";
 import { crowdfundingAddress } from "@/configs";
 import Loader from "../components/Loader";
 import { parseUnits } from "viem";
-import { wagmiConfig } from "@/utils/wagmiConfig";
+// import { wagmiConfig } from "@/utils/wagmiConfig";
 import { useToast } from "@/hooks/use-toast";
 
 
@@ -65,56 +64,73 @@ const CreateCard = ({ clsoseDialog, refetch }: props) => {
 
   const { toast } = useToast();
   const { address } = useAccount();
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
 
-  const { writeContract } = useWriteContract({
-    mutation: {
-      onSuccess: async (hash, variables) => {
-        const listReceipt = await waitForTransactionReceipt(wagmiConfig,
-          { hash });
-        if (listReceipt.status === "success") {
-          toast({
-            description: "创建项目成功！",
-          });
-          setIsLoading(false);
-          clsoseDialog(false);
-          refetch();
-        }
-      },
-      onError: (error) => {
-        toast({
-          description: "Error: " + ((error as BaseError).shortMessage || error.message)
-        });
-      }
+  // const { writeContract } = useWriteContract({
+  //   mutation: {
+  //     onSuccess: async (hash, variables) => {
+  //       const listReceipt = await waitForTransactionReceipt(wagmiConfig,
+  //         { hash });
+  //       if (listReceipt.status === "success") {
+  //         toast({
+  //           description: "创建项目成功！",
+  //         });
+  //         setIsLoading(false);
+  //         clsoseDialog(false);
+  //         refetch();
+  //       }
+  //     },
+  //     onError: (error) => {
+  //       toast({
+  //         description: "Error: " + ((error as BaseError).shortMessage || error.message)
+  //       });
+  //     }
+  //   }
+  // })
+  const { data: hash, error, isPending, writeContract } = useWriteContract();
+  const { isLoading: isConfirming, isSuccess: isConfirmed } =
+    useWaitForTransactionReceipt({
+      hash,
+    });
+
+  useEffect(() => {
+    if (isConfirmed) {
+      clsoseDialog(false);
+      refetch();
     }
-  })
+    if (error) {
+      toast({
+        description: "Error: " + ((error as BaseError).shortMessage || error.message)
+      });
+    }
+  }, [isConfirmed, error])
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema)
   });
 
-  const onSubmit = async () => {
-    const getFormValues = form.getValues();
-    setIsLoading(true);
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    // const getFormValues = form.getValues();
+    // setIsLoading(true);
     writeContract({
       abi: crowdFundingAbi,
       address: crowdfundingAddress,
       functionName: 'createCampaign',
       args: [
         address!, // owner
-        getFormValues.title, // title
-        getFormValues.description, // description
-        parseUnits(getFormValues.target, 18),
-        // BigInt(getFormValues.target),
-        BigInt(getFormValues.deadline.getTime()), // deadline,
-        getFormValues.imageUrl,
+        data.title, // title
+        data.description, // description
+        parseUnits(data.target, 18),
+        // BigInt(data.target),
+        BigInt(data.deadline.getTime()), // deadline,
+        data.imageUrl,
       ],
     })
   }
 
   return (
     <>
-      {isLoading && <Loader />}
+      {isConfirming && <Loader />}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
@@ -211,7 +227,12 @@ const CreateCard = ({ clsoseDialog, refetch }: props) => {
             )}
           />
           <div className="w-full flex justify-end gap-2">
-            <Button type="submit" className="w-full bg-[--button-bg] text-[--basic-text] hover:bg-[--button-bg]">确认</Button>
+            <Button type="submit" className="w-full bg-[--button-bg] text-[--basic-text] hover:bg-[--button-bg]">
+              {
+                isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              }
+              确认
+            </Button>
           </div>
 
         </form>

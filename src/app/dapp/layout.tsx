@@ -22,7 +22,7 @@ const menuList = [
       },
       {
         title: "carbon miner",
-        path: "/dapp/staking",
+        path: "/dapp/miner",
       }
     ]
   }

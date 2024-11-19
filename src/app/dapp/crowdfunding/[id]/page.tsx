@@ -1,17 +1,17 @@
 "use client"
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation';
 import CountBox from "../components/CountBox"
 import CustomButton from "../components/CustomButton"
 import Loader from "../components/Loader"
 import { calculateBarPercentage, daysLeft } from '@/utils';
-import { useReadContract, useWriteContract, type BaseError } from 'wagmi';
+import { useReadContract, useWriteContract, type BaseError, useWaitForTransactionReceipt } from 'wagmi';
 import { crowdFundingAbi } from '~/crowdFunding';
 import { crowdfundingAddress } from '@/configs';
 import { parseEther } from 'viem';
-import { waitForTransactionReceipt } from '@wagmi/core';
-import { wagmiConfig } from '@/utils/wagmiConfig';
+// import { waitForTransactionReceipt } from '@wagmi/core';
+// import { wagmiConfig } from '@/utils/wagmiConfig';
 import { useToast } from '@/hooks/use-toast';
 
 const CampaignDetails = () => {
@@ -22,27 +22,45 @@ const CampaignDetails = () => {
   const state = dataString ? JSON.parse(decodeURIComponent(dataString)) : {};
   const remainingDays = daysLeft(Number(state.deadline));
   const [amount, setAmount] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { writeContract, isPending } = useWriteContract(
-    {
-      mutation: {
-        onSuccess: async (hash, variables) => {
-          const listReceipt = await waitForTransactionReceipt(wagmiConfig,
-            { hash });
-          if (listReceipt.status === "success") {
-            setIsLoading(false);
-            router.push('/dapp/crowdfunding');
-          }
-        },
-        onError: (error) => {
-          toast({
-            description: "Error: " + ((error as BaseError).shortMessage || error.message)
-          });
-        }
-      }
+  // const { writeContract, isPending } = useWriteContract(
+  //   {
+  //     mutation: {
+  //       onSuccess: async (hash, variables) => {
+  //         const listReceipt = await waitForTransactionReceipt(wagmiConfig,
+  //           { hash });
+  //         if (listReceipt.status === "success") {
+  //           setIsLoading(false);
+  //           router.push('/dapp/crowdfunding');
+  //         }
+  //       },
+  //       onError: (error) => {
+  //         toast({
+  //           description: "Error: " + ((error as BaseError).shortMessage || error.message)
+  //         });
+  //       }
+  //     }
+  //   }
+  // );
+  const { data: hash, error, isPending, writeContract } = useWriteContract();
+  const { isLoading: isConfirming, isSuccess: isConfirmed } =
+    useWaitForTransactionReceipt({
+      hash,
+    });
+
+  useEffect(() => {
+    if (isConfirmed) {
+      // setIsLoading(false);
+      router.push('/dapp/crowdfunding');
     }
-  );
+    if (error) {
+      toast({
+        description: "Error: " + ((error as BaseError).shortMessage || error.message)
+      });
+    }
+  }, [isConfirmed, error])
+
   const { data: donators } = useReadContract({
     abi: crowdFundingAbi,
     address: crowdfundingAddress,
@@ -51,7 +69,7 @@ const CampaignDetails = () => {
   });
   const donatorsLength = donators?.[0]?.length ?? 0;
   const handleDonate = async () => {
-    setIsLoading(true);
+    // setIsLoading(true);
     try {
       writeContract({
         abi: crowdFundingAbi,
@@ -63,13 +81,13 @@ const CampaignDetails = () => {
         value: parseEther(amount)
       });
     } catch (error) {
-      setIsLoading(false);
+      // setIsLoading(false);
     }
 
   }
   return (
     <div>
-      {isLoading && <Loader />}
+      {isConfirming && <Loader />}
 
       <div className="w-full flex md:flex-row flex-col gap-[20px] px-2">
         <div className="flex-1 flex-col">
