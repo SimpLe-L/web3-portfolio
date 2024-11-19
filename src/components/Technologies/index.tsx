@@ -1,7 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion";
-import { SlideLeft, SlideUp } from "@/utils";
+import { SlideLeft } from "@/utils";
 
 const skillsArr = [
   {
@@ -35,8 +35,8 @@ const skillsArr = [
     delay: 1.2
   },
   {
-    name: "Ethers",
-    svgPath: "/ethers.svg",
+    name: "Viem",
+    svgPath: "/viem.png",
     delay: 1.4
   }
 ]

@@ -10,7 +10,7 @@ import { waitForTransactionReceipt } from '@wagmi/core';
 import Loader from "../crowdfunding/components/Loader";
 import { useState } from 'react';
 
-const nftMarket = ({ address }: { address: `0x${string}` | undefined }) => {
+const NftMarket = ({ address }: { address: `0x${string}` | undefined }) => {
 
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
@@ -97,4 +97,4 @@ const nftMarket = ({ address }: { address: `0x${string}` | undefined }) => {
   )
 }
 
-export default nftMarket
+export default NftMarket

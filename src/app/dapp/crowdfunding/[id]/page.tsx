@@ -3,15 +3,12 @@
 import { useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation';
 import CountBox from "../components/CountBox"
-import CustomButton from "../components/CustomButton"
 import Loader from "../components/Loader"
 import { calculateBarPercentage, daysLeft } from '@/utils';
 import { useReadContract, useWriteContract, type BaseError, useWaitForTransactionReceipt } from 'wagmi';
 import { crowdFundingAbi } from '~/crowdFunding';
 import { crowdfundingAddress } from '@/configs';
 import { parseEther } from 'viem';
-// import { waitForTransactionReceipt } from '@wagmi/core';
-// import { wagmiConfig } from '@/utils/wagmiConfig';
 import { useToast } from '@/hooks/use-toast';
 
 const CampaignDetails = () => {
@@ -22,27 +19,7 @@ const CampaignDetails = () => {
   const state = dataString ? JSON.parse(decodeURIComponent(dataString)) : {};
   const remainingDays = daysLeft(Number(state.deadline));
   const [amount, setAmount] = useState('');
-  // const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  // const { writeContract, isPending } = useWriteContract(
-  //   {
-  //     mutation: {
-  //       onSuccess: async (hash, variables) => {
-  //         const listReceipt = await waitForTransactionReceipt(wagmiConfig,
-  //           { hash });
-  //         if (listReceipt.status === "success") {
-  //           setIsLoading(false);
-  //           router.push('/dapp/crowdfunding');
-  //         }
-  //       },
-  //       onError: (error) => {
-  //         toast({
-  //           description: "Error: " + ((error as BaseError).shortMessage || error.message)
-  //         });
-  //       }
-  //     }
-  //   }
-  // );
   const { data: hash, error, isPending, writeContract } = useWriteContract();
   const { isLoading: isConfirming, isSuccess: isConfirmed } =
     useWaitForTransactionReceipt({
@@ -144,8 +121,8 @@ const CampaignDetails = () => {
 
         <div className="flex-1">
 
-          <div className="mt-[20px] flex flex-col p-4 bg-[#1c1c24] rounded-[10px]">
-            <p className="font-epilogue fount-medium text-[20px] leading-[30px] text-center text-[#808191]">
+          <div className="mt-[20px] flex flex-col p-4 bg-[#1c1c24] rounded-[10px] border-[--split-line] border">
+            <p className="font-epilogue fount-medium text-[20px] leading-[30px] text-center text-[--basic-text]">
               支持该项目
             </p>
             <div className="mt-[30px]">
@@ -162,12 +139,16 @@ const CampaignDetails = () => {
                 <h4 className="font-epilogue font-semibold text-[14px] leading-[22px] text-white">支持该项目请进行捐款吧！</h4>
               </div>
 
-              <CustomButton
+              {/* <CustomButton
                 btnType="button"
                 title={isPending ? "进行中..." : "捐赠"}
                 styles="w-full bg-[--button-bg]"
                 handleClick={handleDonate}
-              />
+              /> */}
+
+              <div className='w-full bg-[--button-bg] text-[--basic-text] font-bold flex justify-center items-center rounded-[10px] min-h-[52px] cursor-pointer' onClick={handleDonate}>
+                {isPending ? "进行中..." : "捐赠"}
+              </div>
             </div>
           </div>
         </div>

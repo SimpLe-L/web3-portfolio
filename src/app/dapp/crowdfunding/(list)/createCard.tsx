@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import * as z from "zod";
 import { useForm } from 'react-hook-form';
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -64,29 +64,6 @@ const CreateCard = ({ clsoseDialog, refetch }: props) => {
 
   const { toast } = useToast();
   const { address } = useAccount();
-  // const [isLoading, setIsLoading] = useState(false);
-
-  // const { writeContract } = useWriteContract({
-  //   mutation: {
-  //     onSuccess: async (hash, variables) => {
-  //       const listReceipt = await waitForTransactionReceipt(wagmiConfig,
-  //         { hash });
-  //       if (listReceipt.status === "success") {
-  //         toast({
-  //           description: "创建项目成功！",
-  //         });
-  //         setIsLoading(false);
-  //         clsoseDialog(false);
-  //         refetch();
-  //       }
-  //     },
-  //     onError: (error) => {
-  //       toast({
-  //         description: "Error: " + ((error as BaseError).shortMessage || error.message)
-  //       });
-  //     }
-  //   }
-  // })
   const { data: hash, error, isPending, writeContract } = useWriteContract();
   const { isLoading: isConfirming, isSuccess: isConfirmed } =
     useWaitForTransactionReceipt({
@@ -103,10 +80,17 @@ const CreateCard = ({ clsoseDialog, refetch }: props) => {
         description: "Error: " + ((error as BaseError).shortMessage || error.message)
       });
     }
-  }, [isConfirmed, error])
+  }, [isConfirmed, error, clsoseDialog, refetch, toast]);
 
   const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema)
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+      target: "",
+      deadline: new Date(),
+      imageUrl: "",
+    }
   });
 
   const onSubmit = async (data: z.infer<typeof formSchema>) => {

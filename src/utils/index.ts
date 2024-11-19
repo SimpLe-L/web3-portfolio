@@ -17,16 +17,6 @@ export const daysLeft = (deadline: number) => {
   return remainingDays.toFixed(0);
 };
 
-export const checkIfImage = (url: string, callback: Function) => {
-  const img = new Image();
-  img.src = url;
-
-  if (img.complete) callback(true);
-
-  img.onload = () => callback(true);
-  img.onerror = () => callback(false);
-};
-
 export const calculateBarPercentage = (goal: number, raisedAmount: number) => {
   const percentage = Math.round((raisedAmount * 100) / goal);
 
