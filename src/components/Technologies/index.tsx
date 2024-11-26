@@ -6,37 +6,37 @@ import { SlideLeft } from "@/utils";
 const skillsArr = [
   {
     name: "React",
-    svgPath: "/react.svg",
+    svgPath: "/images/react.svg",
     delay: 0.2
   },
   {
     name: "Vue",
-    svgPath: "/Vue.svg",
+    svgPath: "/images/Vue.svg",
     delay: 0.4
   },
   {
     name: "TypeScript",
-    svgPath: "/ts.svg",
+    svgPath: "/images/ts.svg",
     delay: 0.6
   },
   {
     name: "Nextjs",
-    svgPath: "/nextjs.svg",
+    svgPath: "/images/nextjs.svg",
     delay: 0.8
   },
   {
     name: "Tailwindcss",
-    svgPath: "/tailwindcss.svg",
+    svgPath: "/images/tailwindcss.svg",
     delay: 1
   },
   {
     name: "Wagmi",
-    svgPath: "/wagmi.svg",
+    svgPath: "/images/wagmi.svg",
     delay: 1.2
   },
   {
     name: "Viem",
-    svgPath: "/viem.png",
+    svgPath: "/images/viem.png",
     delay: 1.4
   }
 ]

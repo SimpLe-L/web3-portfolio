@@ -12,7 +12,7 @@ import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogT
 import { Button } from "@/components/ui/button";
 import { ChangeEvent, useState } from "react";
 import { Input } from "@/components/ui/input";
-import { parseUnits } from 'viem'
+// import { parseUnits } from 'viem'
 
 interface ICardProp {
   data: INftProperties,
@@ -56,8 +56,8 @@ export function NFTCard({ data, handleNftCheck, handleList }: ICardProp) {
             alt="NFT"
             width={210}
             height={210}
+            className="rounded-[15px] hover:scale-105 transform transition"
           />
-          {/* <Image src="https://raw.githubusercontent.com/SimpLe-L/simp1e-blog/main/public/donkeys/0/images/3.png" alt="NFT" width={210} height={210}></Image> */}
         </div>
 
         <div className="flex flex-col gap-1">

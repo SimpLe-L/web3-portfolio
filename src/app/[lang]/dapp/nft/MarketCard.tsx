@@ -32,6 +32,7 @@ const MarketCard = ({ address, buyNft, unShelve, nftItem }: IProps) => {
             alt="NFT"
             width={210}
             height={210}
+            className="rounded-[15px] hover:scale-105 transform transition"
           />
         </div>
 

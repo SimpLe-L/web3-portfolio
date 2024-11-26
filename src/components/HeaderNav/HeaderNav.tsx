@@ -48,21 +48,21 @@ const HeaderNav = () => {
           <Image
             width={24}
             height={24}
-            src="/telegram.svg"
+            src="/images/telegram.svg"
             alt="github"
             className="object-contain cursor-pointer"
           />
           <Image
             width={24}
             height={24}
-            src="/x.svg"
+            src="/images/x.svg"
             alt="github"
             className="object-contain cursor-pointer"
           />
           <Image
             width={24}
             height={24}
-            src="/github.svg"
+            src="/images/github.svg"
             alt="github"
             className="object-contain cursor-pointer"
           />
