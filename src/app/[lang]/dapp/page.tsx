@@ -11,8 +11,8 @@ const DappPage = () => {
 
   const { openConnectModal } = useConnectModal();
   const { address } = useAccount();
-  if (!address) {
-    openConnectModal && openConnectModal()
+  if (!address && openConnectModal) {
+    openConnectModal();
   }
 
   return (
@@ -79,9 +79,6 @@ const DappPage = () => {
           </Card>
         </div>
       </div>
-
-
-
     </div>
   )
 }

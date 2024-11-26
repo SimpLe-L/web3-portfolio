@@ -3,7 +3,7 @@
 import { motion } from "framer-motion";
 import { SlideUp } from "@/utils";
 
-const SelfIntroduction = async () => {
+const SelfIntroduction = () => {
 
   return (
     <div className="container">
