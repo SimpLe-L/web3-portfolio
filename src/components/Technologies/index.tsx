@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { SlideLeft } from "@/utils";
+// import useDict from "@/hooks/use-dictionnary";
 
 const skillsArr = [
   {
@@ -42,6 +43,7 @@ const skillsArr = [
 ]
 
 const Technologies = () => {
+  // const dict = useDict('zh'); {dict.home.hello}
   return (
     <div className="container py-6">
       <motion.div
